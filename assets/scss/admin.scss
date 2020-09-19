@@ -1,0 +1,37 @@
+@import "../node_modules/sedna/bin/sedna";
+@import "_postConfig";
+
+// Base
+@include SnBase();
+@import "_base";
+
+// Components
+@include SnMenu(s,'.HeaderMenu');
+@include SnBtn();
+@include SnAlert();
+@include SnCard();
+@include SnForm();
+@include SnControl();
+@include SnAvatar();
+@include SnGrid();
+@include SnLoading();
+@include SnMargin();
+@include SnModal();
+@include SnMessage();
+@include SnPagination();
+@include SnTable();
+@include SnSwitch();
+// @include SnTooltip();
+@include SnTab();
+@include SnContainer();
+@include SnCollapse();
+//@include SnDivider();
+@include SnFreeze();
+@include SnEmpty();
+@include SnPadding();
+
+@import 'layout/Layout.scss';
+@import 'layout/AsideMenu.scss';
+@import 'layout/Header.scss';
+@import 'layout/HeaderMenu.scss';
+@import 'layout/SnToolbar.scss';
