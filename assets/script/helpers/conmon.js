@@ -2,6 +2,8 @@ const APP = {
     path: "/php-mvc",
 };
 
+navigator.serviceWorker.register(APP.path + '/assets/script/helpers/sw.js');
+
 const codeMessage = {
     200: "El servidor devolvió con éxito los datos solicitados. ",
     201: "Datos nuevos o modificados son exitosos. ",
@@ -69,6 +71,24 @@ class RequestApi {
                 NProgress.done();
             });
     }
+
+    static fetchOut(path, options = {}) {
+        NProgress.start();
+        const newOptions = RequestApi.setHeaders(options);
+
+        return fetch(path, newOptions)
+            .then(RequestApi.checkStatus)
+            .then((response) => {
+              return response.json();
+            })
+            .catch(e => {
+                console.warn(e,'FETCH_ERROR');
+                return e;
+            })
+            .finally(e => {
+                NProgress.done();
+            });
+    }
 }
 
 const printArea = function (idElem) {
@@ -122,3 +142,65 @@ const TableToExcel = (
     link.href = URL.createObjectURL(blob);
     link.click();
 };
+
+function geoGetCurrentPosition(){
+    return new Promise((resolve, reject)=>{
+        if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(userPosition => {
+                let userLocation = {
+                    lat: userPosition.coords.latitude,
+                    lng: userPosition.coords.longitude,
+                }
+                resolve(userLocation);
+            });
+        } else {
+            reject('geolocation not support');
+        }
+    });
+}
+
+// ------------------------------------------
+function SnDropdown(){
+    let lastDropdown = false;
+
+    function toggleDropdown(listElem) {
+        if(!listElem.classList.contains('show')){
+            listElem.classList.add('show');
+
+            if(lastDropdown && lastDropdown !== listElem){
+                lastDropdown.classList.remove('show');
+            }
+            lastDropdown = listElem;
+        }else {
+            lastDropdown = false;
+            listElem.classList.remove('show');
+        }
+    }
+
+    function closeLastDropdown(){
+        if(lastDropdown){
+            lastDropdown.classList.remove('show');
+        }
+    }
+
+    document.querySelectorAll('.SnDropdown').forEach(item => {
+        let toggleElem = item.querySelector('.SnDropdown-toggle');
+        let listElem = toggleElem.nextElementSibling;
+
+        if(!item.classList.contains('listen')){
+            item.classList.add('listen');
+            toggleElem.addEventListener('click',e =>{
+                e.stopPropagation();
+                toggleDropdown(listElem);
+            }, true);
+        }
+    });
+
+    window.addEventListener('click',e =>{
+        closeLastDropdown();
+    });
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+    SnDropdown();
+});

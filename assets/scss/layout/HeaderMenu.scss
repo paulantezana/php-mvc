@@ -98,3 +98,20 @@
     color: var(--snColorTextAlt);
   }
 }
+
+.Notification{
+  line-height: 1rem;
+  display: flex;
+  min-width: 300px;
+  padding: .6rem 1rem;
+  &-avatar{
+    margin-right: 1rem;
+    flex: 1 0 auto;
+  }
+  &-body{
+    p{ margin-top: 0; }
+  }
+  &-time{
+    color: var(--snColorTextAlt);
+  }
+}

@@ -36,7 +36,7 @@
         <div class="SnModal-close" data-modalclose="userModalForm">
             <i class="fas fa-times"></i>
         </div>
-        <div class="SnModal-header"><i class="fas fa-folder-plus SnMr-2"></i> Usuario</div>
+        <div class="SnModal-header"><i class="fas fa-user SnMr-2"></i> Usuario</div>
         <div class="SnModal-body">
             <form action="" class="SnForm" novalidate id="userForm" onsubmit="userSubmit(event)">
                 <input type="hidden" class="SnForm-control" id="userId">
@@ -92,7 +92,7 @@
                         <label class="SnSwitch-label" for="userState">Estado</label>
                     </div>
                 </div>
-                <button type="submit" class="SnBtn primary block" id="userFormSubmit">Guardar</button>
+                <button type="submit" class="SnBtn primary lg block" id="userFormSubmit"><i class="fas fa-save SnMr-2"></i> Guardar</button>
             </form>
         </div>
     </div>

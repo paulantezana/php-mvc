@@ -20,15 +20,20 @@ class AppAuthorizationController extends  Controller
     {
         try {
             authorization($this->connection, 'rol', 'listar');
+            $postData = file_get_contents("php://input");
+            $body = json_decode($postData, true);
+
+            // $appAuthorization = $this->appAuthorizationModel->getAllByUserRoleId($body['userRoleId']);
+
             $appAuthorization = $this->appAuthorizationModel->getAll();
             $userRole = $this->userRoleModel->getAll();
 
-            $this->render('appAuthorization.view.php', [
+            $this->render('admin/appAuthorization.view.php', [
                 'appAuthorization' => $appAuthorization,
                 'userRole' => $userRole
             ], 'layouts/admin.layout.php');
         } catch (Exception $e) {
-            $this->render('500.php', [
+            $this->render('500.view.php', [
                 'message' => $e->getMessage(),
             ], 'layouts/admin.layout.php');
         }

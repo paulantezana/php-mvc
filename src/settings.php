@@ -3,7 +3,7 @@ date_default_timezone_set('America/Lima');
 
 function exceptions_error_handler($severity, $message, $filename, $lineno)
 {
-  error_log($message . PHP_EOL, 3,  __DIR__ . '/../files/errors.log');
+  error_log($severity. $message. $filename. $lineno . PHP_EOL, 3,  __DIR__ . '/../files/errors.log');
   if (error_reporting() == 0) {
     return;
   }
@@ -29,10 +29,17 @@ define('MODEL_PATH', ROOT_DIR . '/src/Models');
 define('VIEW_PATH', ROOT_DIR . '/src/Views');
 define('CERVICE_PATH', ROOT_DIR . '/src/Services');
 
-define('SESS_KEY','SnId_mvc');
-define('SESS_USER','SnUser_mvc');
+define('SESS_KEY','SnId_hdcarlo');
+define('SESS_USER','SnUser_hdcarlo');
 
-define('APP_NAME','PHP MVC');
+define('APP_NAME','DCARLO APP');
 define('APP_AUTHOR','paulantezana');
-define('APP_DESCRIPTION','php mvc template');
+define('APP_DESCRIPTION','Control de entrega');
 define('APP_EMAIL','paulantezana.2@gmail.com');
+
+define('APP_DEV',true);
+
+define('FILE_PATH', '/files');
+
+define('GOOGLE_API_KEY','AIzaSyAG7pSRfqKAObS76qjyyIeuImkVcooIt2I');
+// define('GOOGLE_RE_SECRET_KEY','6LfcgMQZAAAAANIo0O9NzC5bJyPowYVt9gQMyqyo');

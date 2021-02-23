@@ -7,6 +7,24 @@ class User extends Model
         parent::__construct('users', 'user_id', $connection);
     }
 
+    public function count()
+    {
+        try {
+            $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM users WHERE state = 1");
+            if (!$stmt->execute()) {
+                throw new Exception($stmt->errorInfo()[2]);
+            }
+            $data = $stmt->fetch();
+            if($data == false){
+                return 0;
+            }
+
+            return $data['total'];
+        } catch (Exception $e) {
+            throw new Exception('Error en metodo : ' . __FUNCTION__ . ' | ' . $e->getMessage());
+        }
+    }
+
     public function paginate(int $page, int $limit = 10, string $search = '')
     {
         try {
@@ -14,8 +32,8 @@ class User extends Model
             $totalRows = $this->db->query("SELECT COUNT(*) FROM users WHERE user_name LIKE '%{$search}%'")->fetchColumn();
             $totalPages = ceil($totalRows / $limit);
 
-            $stmt = $this->db->prepare("SELECT users.*, ur.description as user_role FROM users
-                                        INNER JOIN user_role ur on users.user_role_id = ur.user_role_id
+            $stmt = $this->db->prepare("SELECT users.*, ur.description as user_roles FROM users
+                                        INNER JOIN user_roles ur on users.user_role_id = ur.user_role_id
                                         WHERE users.user_name LIKE :search LIMIT $offset, $limit");
             $stmt->bindValue(':search', '%' . $search . '%');
 

@@ -34,8 +34,8 @@ function authorization(PDO $connection, string $module, string $action, string $
         die();
     }
 
-    $stmt = $connection->prepare('SELECT count(*) as count FROM user_role_authorization as ur
-                            INNER JOIN app_authorization app ON ur.app_authorization_id = app.app_authorization_id
+    $stmt = $connection->prepare('SELECT count(*) as count FROM user_role_authorizations as ur
+                            INNER JOIN app_authorizations app ON ur.app_authorization_id = app.app_authorization_id
                             WHERE ur.user_role_id = :user_role_id AND app.module = :module AND app.action = :action
                             GROUP BY app.module');
     $stmt->execute([
@@ -88,4 +88,37 @@ function menuIsAuthorized($menuName)
     } else {
         return false;
     }
+}
+
+function uploadAndValidateFile($file, $path, $fileName, $maxSize = 2097152, $mimeTypes = ['jpeg', 'jpg', 'png'])
+{
+    $fileSize = $file['size'];
+    $fileTmp = $file['tmp_name'];
+    $fileExt = pathinfo($file['name'], PATHINFO_EXTENSION);
+
+    $fileName = str_replace(array_merge(
+        array_map('chr', range(0, 31)),
+        array('<', '>', ':', '"', '/', '\\', '|', '?', '*')
+    ), '', $fileName);
+
+    if (in_array(strtolower($fileExt), $mimeTypes) === false) {
+        throw new Exception('Extensión no permitida, elija un archivo .' . implode(', ', $mimeTypes));
+    }
+    if ($fileSize > $maxSize) {
+        throw new Exception('Tamaño del archivo debe ser menor o igual a ' . $maxSize / 1024 / 1024 . ' MB');
+    }
+
+    $paths = explode('/', $path);
+    $pathAux = '/';
+    for ($i = 0; $i < count($paths); $i++) {
+        if (!file_exists(ROOT_DIR . FILE_PATH . $pathAux . $paths[$i])) {
+            mkdir(ROOT_DIR . FILE_PATH . $pathAux . $paths[$i]);
+        }
+        $pathAux .= $paths[$i] . '/';
+    }
+
+    $fileDir = FILE_PATH . $path . $fileName . '.' . $fileExt;
+    move_uploaded_file($fileTmp, ROOT_DIR . $fileDir);
+
+    return $fileDir;
 }

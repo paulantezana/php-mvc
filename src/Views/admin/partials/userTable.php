@@ -26,7 +26,7 @@
                     <td><?= $row['user_name'] ?></td>
                     <td><?= $row['full_name'] ?></td>
                     <td><?= $row['email'] ?></td>
-                    <td><?= $row['user_role'] ?></td>
+                    <td><?= $row['user_roles'] ?></td>
                     <td>
                         <div class="SnSwitch" style="height: 18px">
                             <input class="SnSwitch-control" type="checkbox" id="userState<?= $row['user_id'] ?>" type="checkbox" <?php echo $row['state'] ? 'checked' : '' ?> disabled>

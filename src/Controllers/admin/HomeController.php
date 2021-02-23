@@ -6,6 +6,8 @@ class HomeController extends Controller
 {
     private $connection;
     private $userModel;
+    private $exhibitorModel;
+    private $customerModel;
 
     public function __construct(PDO $connection)
     {
@@ -16,11 +18,15 @@ class HomeController extends Controller
     public function home()
     {
         try {
-            $this->render('dashboard.view.php', [], 'layouts/admin.layout.php');
+            $userCount = $this->userModel->count();
+
+            $this->render('admin/dashboard.view.php', [
+                'userCount' => $userCount,
+            ], 'layouts/admin.layout.php');
         } catch (Exception $e) {
             $this->render('500.view.php', [
                 'message' => $e->getMessage(),
-            ], 'layouts/basic.layout.php');
+            ], 'layouts/admin.layout.php');
         }
     }
 
