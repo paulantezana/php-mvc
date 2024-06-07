@@ -1,0 +1,8 @@
+document.addEventListener("DOMContentLoaded",()=>{maintenanceTable=new SnTable({elementId:"drawWareHouseTokenTable",entity:"wareHouseToken",data:e=>snTableFetchData("/admin/maintenanceWareHouseToken/table",e),actions:appMenuActions,selectable:!1,columns:[{title:"Local",field:"ware_house_id_commercial_reason",filterable:!0,sortable:!0},{title:"Caja",field:"cash_box_id_name",filterable:!0,sortable:!0},{title:"Descripción",field:"description",filterable:!0,sortable:!0},{title:"RUTA",field:"description",filterable:!1,sortable:!1,customRender:e=>`<div class="SnControlGroup">
+                      <div class="SnControlGroup-input">
+                          <input class="SnForm-control" id="wareHouseTokenRowTokenInput_${e.id}" type="search" value="${location.origin}${URL_PATH}/api/v1/sale/see/${e.token}">
+                      </div>
+                      <div class="SnControlGroup-append">
+                          <div class="SnBtn primary icon" id="wareHouseTokenRowTokenCopy_${e.id}"><i class="fa-solid fa-copy"></i></div>
+                      </div>
+                  </div>`},...snTableAuditColumnRender()],updated:e=>{[...document.querySelectorAll('[id*="wareHouseTokenRowTokenCopy_"]')].forEach(o=>{o.addEventListener("click",e=>{e.preventDefault();e=o.id.split("_")[1],e=document.getElementById("wareHouseTokenRowTokenInput_"+e);copyToClipboard(e.value),SnMessage.success({content:"El enlace se copió correctamente en portapapeles."})})})},filters:[...getUrlFilter()]})});

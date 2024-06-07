@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{maintenanceTable=new SnTable({elementId:"drawCashBoxTable",entity:"cashBox",data:e=>snTableFetchData("/admin/maintenanceCashBox/table",e),actions:appMenuActions,selectable:!1,columns:[{title:"Nombre",field:"name",filterable:!0,sortable:!0},...snTableAuditColumnRender()],filters:[...getUrlFilter()]})});
